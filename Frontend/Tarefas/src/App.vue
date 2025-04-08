@@ -1,10 +1,11 @@
 <template>
-  <div class="app">
-    <h1>Minhas Tarefas</h1>
-    <Home />
-  </div>
+  <v-app>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
-<script setup>
-import Home from './views/Home.vue'
+<script lang="ts" setup>
+  //
 </script>
