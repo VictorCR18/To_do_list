@@ -3,6 +3,8 @@ package com.example.tarefas.controller;
 import com.example.tarefas.model.Tarefa;
 import com.example.tarefas.repository.TarefaRepository;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -23,14 +25,16 @@ public class TarefaController {
     }
 
     @PostMapping
-    public Tarefa criar(@RequestBody Tarefa tarefa) {
-        return repository.save(tarefa);
+    public ResponseEntity<Tarefa> criar(@Valid @RequestBody Tarefa tarefa) {
+        Tarefa salva = repository.save(tarefa);
+        return ResponseEntity.ok(salva);
     }
 
     @PutMapping("/{id}")
-    public Tarefa atualizar(@PathVariable Long id, @RequestBody Tarefa tarefa) {
+    public ResponseEntity<Tarefa> atualizar(@PathVariable Long id, @Valid @RequestBody Tarefa tarefa) {
         tarefa.setId(id);
-        return repository.save(tarefa);
+        Tarefa atualizada = repository.save(tarefa);
+        return ResponseEntity.ok(atualizada);
     }
 
     @DeleteMapping("/{id}")

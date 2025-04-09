@@ -1,6 +1,7 @@
 package com.example.tarefas.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Table(name = "tarefas")
 @Entity
@@ -11,16 +12,13 @@ public class Tarefa {
     @Column(name = "tarefa_id") // Nome da coluna personalizada para o ID
     private Long id;
 
+    @NotBlank(message = "Título é obrigatório")
     @Column(name = "titulo", length = 100, nullable = false)
     private String titulo;
-
-    @Column(name = "descricao", length = 300)
-    private String descricao;
 
     @Column(name = "concluida", nullable = false)
     private boolean concluida;
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -34,15 +32,7 @@ public class Tarefa {
     }
 
     public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.titulo = titulo != null ? titulo.trim() : null;
     }
 
     public boolean isConcluida() {
