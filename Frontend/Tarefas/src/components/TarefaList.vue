@@ -17,7 +17,11 @@
 
     <!-- Lista de tarefas -->
     <v-list>
-      <v-list-item v-for="tarefa in tarefas" :key="tarefa.id" class="mb-2 tarefa-item">
+      <v-list-item
+        v-for="tarefa in tarefas"
+        :key="tarefa.id"
+        class="mb-2 tarefa-item"
+      >
         <v-list-item-content>
           <!-- Input de edição -->
           <div
@@ -40,7 +44,10 @@
           </div>
 
           <!-- Exibição normal -->
-          <div v-else class="d-flex align-center justify-space-between ga-2 py-1">
+          <div
+            v-else
+            class="d-flex align-center justify-space-between ga-2 py-1"
+          >
             <v-checkbox
               v-model="tarefa.concluida"
               :label="tarefa.titulo"
@@ -54,7 +61,7 @@
             <v-btn icon size="small" @click="editarTarefa(tarefa)">
               <v-icon size="20" color="blue">mdi-pencil</v-icon>
             </v-btn>
-            <v-btn icon size="small" @click="deletarTarefa(tarefa)">
+            <v-btn icon size="small" @click="confirmarExclusao(tarefa)">
               <v-icon size="20" color="red">mdi-delete</v-icon>
             </v-btn>
           </div>
@@ -62,14 +69,28 @@
       </v-list-item>
     </v-list>
   </div>
+  <!-- Modal de confirmação -->
+  <ExcluirTarefaModal
+    v-model="mostrarModal"
+    @confirmar="deletarTarefaConfirmado"
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import ExcluirTarefaModal from "./ExcluirTarefaModal.vue";
 import TarefaService, { type Tarefa } from "../service/tarefaService";
 
 const tarefas = ref<Tarefa[]>([]);
 const novaTarefa = ref("");
+
+const mostrarModal = ref(false);
+const tarefaParaExcluir = ref<Tarefa | null>(null);
+
+const confirmarExclusao = (tarefa: Tarefa) => {
+  tarefaParaExcluir.value = tarefa;
+  mostrarModal.value = true;
+};
 
 const carregarTarefas = async () => {
   tarefas.value = await TarefaService.listar();
@@ -90,9 +111,19 @@ const atualizarTarefa = async (tarefa: Tarefa) => {
   await TarefaService.atualizar(tarefa);
 };
 
-const deletarTarefa = async (tarefa: Tarefa) => {
-  await TarefaService.deletar(tarefa.id);
-  tarefas.value = tarefas.value.filter((t) => t.id !== tarefa.id);
+// const deletarTarefa = async (tarefa: Tarefa) => {
+//   await TarefaService.deletar(tarefa.id);
+//   tarefas.value = tarefas.value.filter((t) => t.id !== tarefa.id);
+// };
+
+const deletarTarefaConfirmado = async () => {
+  if (tarefaParaExcluir.value) {
+    await TarefaService.deletar(tarefaParaExcluir.value.id);
+    tarefas.value = tarefas.value.filter(
+      (t) => t.id !== tarefaParaExcluir.value?.id
+    );
+    tarefaParaExcluir.value = null;
+  }
 };
 
 const editarTarefa = (tarefa: Tarefa) => {

@@ -7,6 +7,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BotaoTema: typeof import('./src/components/BotaoTema.vue')['default']
+    ExcluirTarefaModal: typeof import('./src/components/ExcluirTarefaModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TarefaList: typeof import('./src/components/TarefaList.vue')['default']
