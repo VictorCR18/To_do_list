@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tarefas")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")  // Libera pro frontend acessar
 public class TarefaController {
 
     private final TarefaRepository repository;

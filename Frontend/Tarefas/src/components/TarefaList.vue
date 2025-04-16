@@ -79,7 +79,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import ExcluirTarefaModal from "./ExcluirTarefaModal.vue";
-import TarefaService, { type Tarefa } from "../service/tarefaService";
+import TarefaService from "../service/tarefaService";
+import type { Tarefa } from "../types/tarefas";
 
 const tarefas = ref<Tarefa[]>([]);
 const novaTarefa = ref("");

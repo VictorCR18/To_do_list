@@ -9,7 +9,7 @@ public class Tarefa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tarefa_id") // Nome da coluna personalizada para o ID
+    // @Column(name = "tarefa_id") // Nome da coluna personalizada para o ID
     private Long id;
 
     @NotBlank(message = "Título é obrigatório")
